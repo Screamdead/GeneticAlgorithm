@@ -5,21 +5,25 @@ public class Reemplazo {
 	public Reemplazo(){
 		
 	}
+	
 	/*
 	 * Método Ruleta
 	 * @param fenotipo1, fenotipo2
 	 * @return Individuo
 	 */
 	public Individuo ruleta(Individuo individuo1, Individuo individuo2){
-		int fitnessNormalizado1 = individuo1.fitness / individuo1.fitness + individuo2.fitness;
+		
+		int fitnessNormalizado1 = 1 - (individuo1.fitness / (individuo1.fitness + individuo2.fitness));
 		Random rnd = new Random();
 		double aleatorio = rnd.nextDouble();
+		
 		if (aleatorio < fitnessNormalizado1){
 			return individuo1;
 		}
 		else{
 			return individuo2;
 		}
+		
 	}
 	/*
 	 * Método Steady State

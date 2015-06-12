@@ -3,8 +3,8 @@ import java.util.*;
 public class ClasePrincipal {
 
 	int cantidadIteraciones = 100;
-	int numeroNodos = 11;
-	int tamanoPoblacion = 4;
+	int numeroNodos = 10;
+	int tamanoPoblacion = 6;
 	Vector<Individuo> poblacion = new Vector<Individuo>();
 	Fitness fitness = new Fitness();
 	Reemplazo reemplazo = new Reemplazo();
@@ -18,11 +18,29 @@ public class ClasePrincipal {
 		// TODO Auto-generated method stub
 		
 		ClasePrincipal principal = new ClasePrincipal();
-		System.out.print("Tamaño Vector poblacion: " + principal.poblacion.size());
+		System.out.print("Tamaño Vector población: " + principal.poblacion.size());
 		System.out.println();
 		principal.generacionIndividuos();
 		principal.mejorIndividuo();
-		
+	}
+	
+	public String toString(int[][] M) {
+	    String separator = ", ";
+	    StringBuffer result = new StringBuffer();
+
+	    // iterate over the first dimension
+	    for (int i = 0; i < M.length; i++) {
+	        // iterate over the second dimension
+	        for(int j = 0; j < M[i].length; j++){
+	            result.append(M[i][j]);
+	            result.append(separator);
+	        }
+	        // remove the last separator
+	        result.setLength(result.length() - separator.length());
+	        // add a line break.
+	        result.append("\n");
+	    }
+	    return result.toString();
 	}
 	
 	public int [] generarPermutacionAleatoria(int [] genotipo){
@@ -101,14 +119,33 @@ public class ClasePrincipal {
 				Individuo [] hijos = new Individuo[2];
 				random = rand.nextDouble();
 				
-				//if(random < 0.5){
-				hijos_genotipo = operador.swapMutation(padre1.getGenotipo(), padre2.getGenotipo());
-				//}
+				System.out.println("Padre 1: " + padre1.getGenotipo_string() + "\tPadre 2: "  + padre2.getGenotipo_string() );
+				
+				if(random < 0.5){
+					hijos_genotipo = operador.orderCrossover(padre1.getFenotipo(), padre2.getFenotipo());
+					System.out.println("Cross-Over");
+				}
+				else{
+					hijos_genotipo = operador.swapMutation(padre1.getGenotipo(), padre2.getGenotipo());
+					System.out.println("Mutation");
+				}
+				
 				hijos[0] = new Individuo(hijos_genotipo[0], fitness.calcularFitness(hijos_genotipo[0]));
 				hijos[1] = new Individuo(hijos_genotipo[1], fitness.calcularFitness(hijos_genotipo[1]));
+				
+				System.out.println("Hijo 1: " + hijos[0].getGenotipo_string() + "\tHijo 2: "  + hijos[1].getGenotipo_string());
+				
+				
 				Individuo[] ganadores = reemplazo.steadyState(padre1, padre2, hijos[0], hijos[1]);
+				
+				System.out.println("Individuo 1: " + hijos[0].getGenotipo_string() + "\tPadre 2: "  + hijos[1].getGenotipo_string());
+				
+				
 				siguienteGeneracion.add(ganadores[0]);
 				siguienteGeneracion.add(ganadores[1]);
+				
+				
+				
 			}
 			System.out.println("Primer tamaño de la siguiente generacion: " + siguienteGeneracion.size());
 			poblacion = siguienteGeneracion;

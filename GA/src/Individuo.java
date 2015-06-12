@@ -1,6 +1,6 @@
 
 public class Individuo {
-	
+	 
 	int[] fenotipo;
 	int[] genotipo;
 	int fitness;

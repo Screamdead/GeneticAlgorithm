@@ -42,35 +42,39 @@ public class OperadoresGeneticos {
 	 * @param fenotipo
 	 * @return fenotipo
 	 */
-	public static int[][] inversionMutation(int[] genotipo1, int[] genotipo2){
+	public int[][] inversionMutation(int[] genotipo1, int[] genotipo2){
 		
-		// TODO revisar método
 		int[][] hijos = new int [2][10];
-		int[] hijo1 = new int[genotipo1.length];
- 		Random rnd = new Random();
+		int[] hijo1 = genotipo1.clone();
+		int[] hijo2 = genotipo2.clone();
+		// Seleccionar 2 puntos al azar
+		Random rnd = new Random();
 		int random1 = rnd.nextInt(genotipo1.length);
 		int random2 = rnd.nextInt(genotipo2.length);
-		int temp = 0;
-		hijo1 = genotipo1.clone();
+		// Asegurar que son distintos
 		while(random1 == random2){
+			random1 = rnd.nextInt(genotipo1.length);
 			random2 = rnd.nextInt(genotipo2.length);
 		}
-		
-		int inicio = Math.min(random1, random2);
-		int fin = Math.max(random1, random2);
-	
-		for (int i = inicio; i <= fin/2; i++) {
-			temp = hijo1[i];
-			hijo1[i] = hijo1[hijo1.length - 1 - i];
-			hijo1[hijo1.length - 1 - i] = temp;
+		// Hacer que el más pequeño sea el p1 y el más grande p2
+		int p1 = Math.min(random1, random2);
+		int p2 = Math.max(random1, random2);
+		// Invertir entre el mínimo y el máximo para el hijo1
+		for (int i = 0; i < ((p2-p1+1)/2); i++) {
+			int aux = hijo1[p1 + i];
+			hijo1[p1 + i] = hijo1[p2 - i];
+			hijo1[p2 - i] = aux;
 		}
-		System.out.print(inicio + "\t" + fin);
-		System.out.println();
-		for (int i = 0; i < hijo1.length; i++) {
-			System.out.print(hijo1[i] + " ");
+		// Invertir entre el mínimo y el máximo para el hijo2
+		for (int i = 0; i < ((p2-p1+1)/2); i++) {
+			int aux = hijo2[p1 + i];
+			hijo2[p1 + i] = hijo2[p2 - i];
+			hijo2[p2 - i] = aux;
 		}
-		
+		hijos[0] = hijo1;
+		hijos[1] = hijo2;
 		return hijos;
+		
 	}
 	
 	/*

@@ -33,7 +33,7 @@ public class Individuo {
 	 */
 	public int[] getGenotipo() {
 		return genotipo;
-	}
+	} 
 
 	/**
 	 * @param genotipo the genotipo to set

@@ -35,7 +35,7 @@ public class Reemplazo {
 	 * Método Steady State
 	 * @param padre1, padre2, hijo1, hijo2
 	 * @return siguienteGeneración
-	 */
+	 */ 
 	public Individuo[] steadyState(Individuo padre1, Individuo padre2, Individuo hijo1, Individuo hijo2){
 		
 		Individuo [] siguienteGeneracion = new Individuo[2];

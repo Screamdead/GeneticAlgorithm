@@ -38,11 +38,6 @@ public class ClasePrincipal {
 			genotipo[random2] = temp;		
 		}
 		
-		for (int i = 0; i < genotipo.length; i++) {
-			System.out.print(genotipo[i] + "  ");
-		}
-		
-		System.out.println();
 		return genotipo;
 	}
 
@@ -66,7 +61,6 @@ public class ClasePrincipal {
 		int aleatorio3 = random.nextInt(tamanoPoblacion);
 		int aleatorio4 = random.nextInt(tamanoPoblacion);
 		
-		System.out.println("\nAleatorio 1: " + aleatorio1 + " Tamaño de la poblacion: " + poblacion.size() );
 		Individuo individuo1 = poblacion.get(aleatorio1);
 		Individuo individuo2 = poblacion.get(aleatorio2);
 		Individuo individuo3 = poblacion.get(aleatorio3);
@@ -97,27 +91,17 @@ public class ClasePrincipal {
 				Individuo [] hijos = new Individuo[2];
 				random = rand.nextDouble();
 				
-				System.out.println("Padre 1: " + padre1.getGenotipo_string() + "\tPadre 2: "  + padre2.getGenotipo_string() );
-				
 				if(random < 0.5){
 					hijos_genotipo = operador.orderCrossover(padre1.getFenotipo(), padre2.getFenotipo());
-					System.out.println("Cross-Over");
 				}
 				else{
 					hijos_genotipo = operador.swapMutation(padre1.getGenotipo(), padre2.getGenotipo());
-					System.out.println("Mutation");
 				}
 				
 				hijos[0] = new Individuo(hijos_genotipo[0], fitness.calcularFitness(hijos_genotipo[0]));
 				hijos[1] = new Individuo(hijos_genotipo[1], fitness.calcularFitness(hijos_genotipo[1]));
 				
-				System.out.println("Hijo 1: " + hijos[0].getGenotipo_string() + "\tHijo 2: "  + hijos[1].getGenotipo_string());
-				
 				Individuo[] ganadores = reemplazo.steadyState(padre1, padre2, hijos[0], hijos[1]);
-				
-				System.out.println("Ganador 1: " + ganadores[0].getGenotipo_string() + "\tGanador 2: " + ganadores[1].getGenotipo_string());
-
-				//System.out.println("Individuo 1: " + hijos[0].getGenotipo_string() + "\t Individuo 2: "  + hijos[1].getGenotipo_string());
 				
 				siguienteGeneracion.add(ganadores[0]);
 				siguienteGeneracion.add(ganadores[1]);				
@@ -141,7 +125,6 @@ public class ClasePrincipal {
 			}
 		}
 		
-		System.out.println();
 		System.out.println("Fenotipo del mejor individuo: \t" + poblacion.get(indice).getGenotipo_string());
 		System.out.println("Fitness del mejor individuo: \t" + poblacion.get(indice).getFitness());
 		

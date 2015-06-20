@@ -56,4 +56,15 @@ public class Individuo {
 		this.fitness = fitness;
 	}	
 	
+	/**
+	 * Imprimir individuo
+	 */
+	public String getGenotipo_string() {
+		String temporal = "";
+		for (int i = 0; i < genotipo.length; i++) {
+			temporal += genotipo[i] + " ";
+		}
+		return temporal;
+	}
+	
 }

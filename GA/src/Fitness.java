@@ -1,7 +1,7 @@
 
 public class Fitness {
 	
-	int[][] cost_matrix = {
+	static int[][] cost_matrix = {
 			{0, 29, 86, 46, 68, 52, 72, 42, 51, 55, 29},
 			{29, 0, 55, 46, 42, 43, 43, 23, 23, 31, 41},
 			{86, 55, 0, 68, 46, 55, 23, 43, 41, 29, 79},
@@ -14,6 +14,7 @@ public class Fitness {
 			{55, 31, 29, 42, 62, 62, 42, 15, 42, 0, 51},
 			{29, 41, 79, 21, 82, 33, 77, 37, 62, 51, 0}
 			};
+	  
 	public Fitness(){
 		
 	}
@@ -23,6 +24,8 @@ public class Fitness {
 		for(int i = 0; i < (fenotipo.length - 1); i++){
 			fitness += cost_matrix[fenotipo[i]][fenotipo[i+1]];
 		}
+		fitness += cost_matrix[fenotipo.length - 1][0];
 		return fitness;
 	}
+		
 }

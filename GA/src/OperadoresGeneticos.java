@@ -6,9 +6,9 @@ public class OperadoresGeneticos {
 		
 	}
 	
-	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    // Operadores de Mutación
-    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Operadores de Mutación
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	/*
 	 * Método de mutación swapMutation
@@ -165,25 +165,25 @@ public class OperadoresGeneticos {
 		return hijos;
 	}
 	
-	/* // TODO Auto-generated method stu
+	/* Auto-generated method stu
 	 * Método de mutación Shift Mutation
 	 * @param padre1 y padre2
 	 * @return hijos
 	 */
-	public static int[][] heuristicMutation(int[]genotipo1, int[]genotipo2){
-		Fitness fitness = new Fitness();
+	 
+	public int[][] heuristicMutation(Fitness fitness, int[]genotipo1, int[]genotipo2){
 		Random rnd = new Random();
 		int[][] hijos = new int [2][10];
 		int[] hijo1 = genotipo1.clone();
-		int[] hijotemp = new int[hijo1.length];
-		//int[] hijo2 = genotipo2.clone();
+		int[] hijotemp1 = hijo1.clone();
+		int[] hijo2 = genotipo2.clone();
+		int[] hijotemp2 = hijo2.clone();
 		int[] padre1 = genotipo1.clone();
-		//int[] padre2 = genotipo2.clone();
+		int[] padre2 = genotipo2.clone();
 		int[] aux = new int[3];
-		int[][] permutacion = {{5,10,4},{5,4,10},{4,10,5},{4,5,10},{10,5,4},{10,4,5}}; 
+		int[][] permutacion = new int[6][3]; 
 		int maxfitnessp1 = fitness.calcularFitness(padre1);
-		System.out.println("Fitness inicial para comparar: " + maxfitnessp1);
-		//int maxfitnessp2 = fitness.calcularFitness(padre2);
+		int maxfitnessp2 = fitness.calcularFitness(padre2);
 		int inicio = rnd.nextInt(padre1.length);
 		int medio = rnd.nextInt(padre1.length);
 		while (medio == inicio) {
@@ -194,54 +194,126 @@ public class OperadoresGeneticos {
 			fin = rnd.nextInt(padre1.length);
 		}
 		// Proceso de padre1 para generar el hijo1
-		aux[0] = padre1[4];
-		aux[1] = padre1[6];
-		aux[2] = padre1[8];
-		/*for (int i = 1; i < permutacion.length; i++) {
-			for (int j = 0; j < aux.length; j++) {
-				permutacion[i][j] = aux[j];
+		aux[0] = padre1[inicio];
+		aux[1] = padre1[medio];
+		aux[2] = padre1[fin];
+		permutacion[0] = aux;
+		for (int i = 1; i < permutacion.length; i++) {
+			switch (i) {
+			case 1:
+				permutacion[i][0] = permutacion[i - 1][0];
+				permutacion[i][1] = permutacion[i - 1][2];
+				permutacion[i][2] = permutacion[i - 1][1];
+				continue;
+			case 2:
+				permutacion[i][0] = permutacion[i - 1][1];
+				permutacion[i][1] = permutacion[i - 1][2];
+				permutacion[i][2] = permutacion[i - 1][0];
+				continue;
+			case 3:
+				permutacion[i][0] = permutacion[i - 1][0];
+				permutacion[i][1] = permutacion[i - 1][2];
+				permutacion[i][2] = permutacion[i - 1][1];
+				continue;
+			case 4:
+				permutacion[i][0] = permutacion[i - 1][2];
+				permutacion[i][1] = permutacion[i - 1][1];
+				permutacion[i][2] = permutacion[i - 1][0];
+				continue;
+			case 5:
+				permutacion[i][0] = permutacion[i - 1][0];
+				permutacion[i][1] = permutacion[i - 1][2];
+				permutacion[i][2] = permutacion[i - 1][1];
+				continue;
 			}
 		}
-		for (int i = 1; i < permutacion.length; i++) {
-			for (int j = 0; j < aux.length; j++) {
-				int random1 = rnd.nextInt(aux.length);
-				int random2 = rnd.nextInt(aux.length);
-				int temp = permutacion[i][random1];
-				permutacion[i][random1] = permutacion[i][random2];
-				permutacion[i][random2] = temp;
-			}		
-		}*/
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < padre1.length; j++) {
-				if (j == 4) {
+				if (j == inicio) {
 					hijo1[j] = permutacion[i + 1][0];
 				}
-				if (j == 6) {
+				if (j == medio) {
 					hijo1[j] = permutacion[i + 1][1];
 				}
-				if (j == 8) {
+				if (j == fin) {
 					hijo1[j] = permutacion[i + 1][2];
 				}
-				if ((j != 4) && (j != 6) && (j != 8)) {
+				if ((j != inicio) && (j != medio) && (j != fin)) {
 					hijo1[j] = padre1[j];
 				}
 			}
 			int temfitness = fitness.calcularFitness(hijo1);
 			if (temfitness < maxfitnessp1) {
 				maxfitnessp1 = temfitness;
-				hijotemp = hijo1;	
+				hijotemp1 = hijo1.clone();	
 			}
 		}
-		System.out.println("Hijo elegido");
-		for (int j = 0; j < hijo1.length; j++) {
-			System.out.print(hijotemp[j] + "\t");
+		
+		// Proceso de padre2 para generar el hijo2
+		aux[0] = padre2[inicio];
+		aux[1] = padre2[medio];
+		aux[2] = padre2[fin];
+		permutacion[0] = aux;
+		for (int i = 1; i < permutacion.length; i++) {
+			switch (i) {
+			case 1:
+				permutacion[i][0] = permutacion[i - 1][0];
+				permutacion[i][1] = permutacion[i - 1][2];
+				permutacion[i][2] = permutacion[i - 1][1];
+				continue;
+			case 2:
+				permutacion[i][0] = permutacion[i - 1][1];
+				permutacion[i][1] = permutacion[i - 1][2];
+				permutacion[i][2] = permutacion[i - 1][0];
+				continue;
+			case 3:
+				permutacion[i][0] = permutacion[i - 1][0];
+				permutacion[i][1] = permutacion[i - 1][2];
+				permutacion[i][2] = permutacion[i - 1][1];
+				continue;
+			case 4:
+				permutacion[i][0] = permutacion[i - 1][2];
+				permutacion[i][1] = permutacion[i - 1][1];
+				permutacion[i][2] = permutacion[i - 1][0];
+				continue;
+			case 5:
+				permutacion[i][0] = permutacion[i - 1][0];
+				permutacion[i][1] = permutacion[i - 1][2];
+				permutacion[i][2] = permutacion[i - 1][1];
+				continue;
+			}
+		}	
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < padre2.length; j++) {
+				if (j == inicio) {
+					hijo2[j] = permutacion[i + 1][0];
+				}
+				if (j == medio) {
+					hijo2[j] = permutacion[i + 1][1];
+				}
+				if (j == fin) {
+					hijo2[j] = permutacion[i + 1][2];
+				}
+				if ((j != inicio) && (j != medio) && (j != fin)) {
+					hijo2[j] = padre2[j];
+				}
+			}
+			int temfitness = fitness.calcularFitness(hijo2);
+			if (temfitness < maxfitnessp2) {
+				maxfitnessp2 = temfitness;
+				hijotemp2 = hijo2.clone();
+			}
 		}
-		System.out.println(maxfitnessp1);
+		
+		hijos[0] = hijotemp1;
+		hijos[1] = hijotemp2;
+		
 		return hijos;
 	}
-	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    // Operadores de Cruce
-    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+//-------------------------------------------------------------------------------------------------------------------------------------
+// Operadores de Cruce
+//-------------------------------------------------------------------------------------------------------------------------------------
 	
 	/*
 	 * Método de cruce Order Crossover(OX)
@@ -778,14 +850,5 @@ public class OperadoresGeneticos {
 		return hijos;
 	}
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stu
-		int[]padre1 = {2,9,7,1,5,3,10,6,4,8};
-		int[]padre2 = {10,9,8,7,6,5,4,3,2,1};
-		//int[]prueba = {2,	9,	7,	1,	10,	3,	5,	6,	4,	8};
-		//Fitness pr = new Fitness();
-	    //System.out.println(pr.calcularFitness(prueba));
-		heuristicMutation(padre1,padre2);
-	}
 	
 }

@@ -1,24 +1,43 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ClasePrincipal {
 
-	int cantidadIteraciones = 100;
-	int numeroNodos = 11;
-	int tamanoPoblacion = 100;
+	int cantidadIteraciones = 5000;
+	int numeroNodos;
+	int tamanoPoblacion = 10000;
 	Vector<Individuo> poblacion = new Vector<Individuo>();
-	Fitness fitness = new Fitness();
+	Fitness fitness = null;
 	Reemplazo reemplazo = new Reemplazo();
 	OperadoresGeneticos operador = new OperadoresGeneticos();
 	
-	public ClasePrincipal(){
+	public ClasePrincipal(int ciudades, String archivo) {
+		
+		fitness = new Fitness(archivo, ciudades);
+		this.numeroNodos = ciudades;
+		
 		this.inicializarPoblacion();
 	}
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		ClasePrincipal principal = new ClasePrincipal();
-		principal.generacionIndividuos();
-		principal.mejorIndividuo();
+		int ciudades = Integer.parseInt( args[0] );
+		String archivo = args[1];
+		String salida = args[2];
+		
+		for(int i = 0; i < 30; i++)
+		{
+			System.out.println("Experiment " + (i + 1));
+			System.gc();
+			ClasePrincipal principal = new ClasePrincipal(ciudades, archivo);
+			principal.generacionIndividuos();
+			principal.mejorIndividuo(salida);
+			principal = null;
+		}
 	}
 	
 	public int [] generarPermutacionAleatoria(int [] genotipo){
@@ -67,7 +86,7 @@ public class ClasePrincipal {
 		Individuo individuo4 = poblacion.get(aleatorio4);
 		
 		Individuo individuoGanador = ruleta.ruleta(ruleta.ruleta(individuo1, individuo2),ruleta.ruleta(individuo3, individuo4));
-	
+		
 		return individuoGanador;
 	}
 	
@@ -95,7 +114,7 @@ public class ClasePrincipal {
 					hijos_genotipo = operador.orderCrossover(padre1.getFenotipo(), padre2.getFenotipo());
 				}
 				else{
-					hijos_genotipo = operador.swapMutation(padre1.getGenotipo(), padre2.getGenotipo());
+					hijos_genotipo = operador.inversionMutation(padre1.getGenotipo(), padre2.getGenotipo());
 				}
 				
 				hijos[0] = new Individuo(hijos_genotipo[0], fitness.calcularFitness(hijos_genotipo[0]));
@@ -113,7 +132,7 @@ public class ClasePrincipal {
 		}	
 	}
 	
-	public void mejorIndividuo(){
+	public void mejorIndividuo(String output){
 		
 		int indice = 0;
 		int mejorFitness = poblacion.get(0).getFitness();
@@ -125,8 +144,40 @@ public class ClasePrincipal {
 			}
 		}
 		
-		System.out.println("Fenotipo del mejor individuo: \t" + poblacion.get(indice).getGenotipo_string());
-		System.out.println("Fitness del mejor individuo: \t" + poblacion.get(indice).getFitness());
-		
+		//File output creation
+    	File o = new File(output);
+    	
+    	//Create output file
+    	FileWriter fw;
+        if (!o.exists()) 
+        {
+            try 
+            {
+                o.createNewFile();
+            } 
+            catch (IOException ex) 
+            {
+                Logger.getLogger(ClasePrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("\n\nFile " + o);
+                System.exit(0);
+            }
+        }
+        BufferedWriter bw = null;
+        
+        try 
+    	{
+    		fw = new FileWriter(o.getAbsoluteFile(), true);
+    		bw = new BufferedWriter(fw);
+    		
+    		bw.write( "\n\nFenotipo del mejor individuo: \t" + poblacion.get(indice).getGenotipo_string() );
+    		bw.write( "\nFitness del mejor individuo: \t" + poblacion.get(indice).getFitness() );
+        	
+    		
+			bw.flush();
+		} 
+    	catch (IOException e) 
+    	{
+			e.printStackTrace();
+		}
 	}
 }

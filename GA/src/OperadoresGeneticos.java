@@ -166,7 +166,7 @@ public class OperadoresGeneticos {
 	}
 	
 	/* Auto-generated method stu
-	 * Método de mutación Shift Mutation
+	 * Método de mutación Heuristic Mutation
 	 * @param padre1 y padre2
 	 * @return hijos
 	 */

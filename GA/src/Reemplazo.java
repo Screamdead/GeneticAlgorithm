@@ -13,20 +13,14 @@ public class Reemplazo {
 	 */
 	public Individuo ruleta(Individuo individuo1, Individuo individuo2){
 		
-		//System.out.println("Ruleta " + "Individuo1 entró: " + individuo1.getGenotipo_string());
-		//System.out.println("Ruleta " + "Individuo2 entró: " + individuo2.getGenotipo_string());
-		double puntoquiebre = 1.0 - (individuo1.fitness / (double)(individuo1.fitness + individuo2.fitness));
+		double puntoquiebre = (individuo1.fitness / (double)(individuo1.fitness + individuo2.fitness));
 		Random rnd = new Random();
 		double aleatorio = rnd.nextDouble();
-		//System.out.println("Fitness del individuo 1: " + individuo1.fitness + "\t Suma de fitness: " + (individuo1.fitness + individuo2.fitness));
-		//System.out.println("Punto: " + puntoquiebre + "\t Aleatorio: " + aleatorio);
 		
 		if (aleatorio < puntoquiebre){
-			//System.out.println("Ruleta " + "Individuo1: " + individuo1.getGenotipo_string());
 			return individuo1;
 		}
 		else{
-			//System.out.println("Ruleta " + "Individuo2: " + individuo2.getGenotipo_string());
 			return individuo2;
 		}
 		
